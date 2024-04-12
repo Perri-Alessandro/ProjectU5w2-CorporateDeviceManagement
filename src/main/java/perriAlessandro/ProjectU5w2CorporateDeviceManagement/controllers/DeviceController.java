@@ -11,6 +11,7 @@ import perriAlessandro.ProjectU5w2CorporateDeviceManagement.exceptions.BadReques
 import perriAlessandro.ProjectU5w2CorporateDeviceManagement.payloads.NewDeviceDTO;
 import perriAlessandro.ProjectU5w2CorporateDeviceManagement.payloads.NewDeviceRespDTO;
 import perriAlessandro.ProjectU5w2CorporateDeviceManagement.services.DeviceService;
+import perriAlessandro.ProjectU5w2CorporateDeviceManagement.services.EmployeeService;
 
 import java.util.UUID;
 
@@ -20,6 +21,8 @@ public class DeviceController {
     @Autowired
     private DeviceService deviceService;
 
+    @Autowired
+    private EmployeeService employeeService;
 
     // GET .../devices
     @GetMapping
@@ -57,5 +60,24 @@ public class DeviceController {
     private void findByDeviceIdAndDelete(@PathVariable UUID deviceId) {
         deviceService.findByIdAndDelete(deviceId);
     }
+
+//    @PutMapping("/{deviceId}/assign")
+//    private Device assignDeviceToEmployee(@PathVariable UUID deviceId, @RequestParam UUID employeeId) {
+//        Device device = deviceService.findById(deviceId);
+//        if (device == null) {
+//            throw new NotFoundException(deviceId);
+//        }
+//
+//        Employee employee = employeeService.findById(employeeId);
+//        if (employee == null) {
+//            throw new NotFoundException(employeeId);
+//        }
+//
+//        device.setEmployee(employee);
+//        device.setStatus("Assigned");
+//
+//        return deviceService.saveDevice(device);
+//    }
+
 
 }

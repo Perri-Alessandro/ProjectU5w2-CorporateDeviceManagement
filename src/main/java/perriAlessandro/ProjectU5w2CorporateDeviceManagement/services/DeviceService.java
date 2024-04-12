@@ -59,4 +59,19 @@ public class DeviceService {
         this.deviceDAO.save(found); // Salva le modifiche al post senza l'autore
         this.deviceDAO.delete(found);
     }
+
+    public Device assignDeviceToEmployee(UUID deviceId, UUID employeeId) {
+        Device device = findById(deviceId);
+        if (device == null) {
+            throw new NotFoundException(deviceId);
+        }
+        Employee employee = employeeService.findById(employeeId);
+        if (employee == null) {
+            throw new NotFoundException(employeeId);
+        }
+        device.setEmployee(employee);
+        device.setStatus("Assigned");
+        return deviceDAO.save(device);
+    }
+
 }
