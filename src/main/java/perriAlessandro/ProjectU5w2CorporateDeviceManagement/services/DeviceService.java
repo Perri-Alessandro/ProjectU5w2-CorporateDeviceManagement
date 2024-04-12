@@ -1,0 +1,59 @@
+package perriAlessandro.ProjectU5w2CorporateDeviceManagement.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import perriAlessandro.ProjectU5w2CorporateDeviceManagement.entities.Device;
+import perriAlessandro.ProjectU5w2CorporateDeviceManagement.entities.Employee;
+import perriAlessandro.ProjectU5w2CorporateDeviceManagement.exceptions.NotFoundException;
+import perriAlessandro.ProjectU5w2CorporateDeviceManagement.payloads.NewDeviceDTO;
+import perriAlessandro.ProjectU5w2CorporateDeviceManagement.repositories.DevicesDAO;
+
+import java.util.UUID;
+
+@Service
+public class DeviceService {
+    @Autowired
+    private DevicesDAO deviceDAO;
+
+    @Autowired
+    private EmployeeService employeeService;
+
+    public Page<Device> getDeviceList(int page, int size, String sortBy) {
+        if (size > 100) size = 100;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return this.deviceDAO.findAll(pageable);
+    }
+
+    public Device saveDevice(NewDeviceDTO body) {
+        Employee employee = employeeService.findById(body.getEmployeeId());
+        Device newDevice = new Device();
+        newDevice.setName(body.getName());
+        newDevice.setStatus(body.getStatus());
+        newDevice.setEmployee(employee);
+        return deviceDAO.save(newDevice);
+    }
+
+    public Device findById(UUID id) {
+        return this.deviceDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
+    }
+
+    public Device findByIdAndUpdate(UUID id, NewDeviceDTO updatedDevice) {
+        Device found = this.findById(id);
+        found.setName(updatedDevice.getName());
+        found.setStatus(updatedDevice.getStatus());
+        Employee employee = employeeService.findById(updatedDevice.getEmployeeId());
+        found.setEmployee(employee);
+        return deviceDAO.save(found);
+    }
+
+    public void findByIdAndDelete(UUID id) {
+        Device found = this.findById(id);
+        found.setEmployee(null);
+        this.deviceDAO.save(found); // Salva le modifiche al post senza l'autore
+        this.deviceDAO.delete(found);
+    }
+}
