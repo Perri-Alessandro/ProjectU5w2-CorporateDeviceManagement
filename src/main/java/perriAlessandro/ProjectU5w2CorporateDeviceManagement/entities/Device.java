@@ -1,5 +1,6 @@
 package perriAlessandro.ProjectU5w2CorporateDeviceManagement.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,9 @@ public class Device {
     private String status;
     @ManyToOne
     @JoinColumn(name = "employeeId")
+    @JsonBackReference
+    ///Per avere la lista di Device in ogni dipendente, nel json di ritorno,
+    // ho duvuto far così, togliendo dal json che torna tutti i device i reciproci dipendenti.
     private Employee employee;
 
     public void availableDevice(String status) {

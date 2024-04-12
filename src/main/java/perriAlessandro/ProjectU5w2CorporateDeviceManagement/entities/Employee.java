@@ -1,6 +1,6 @@
 package perriAlessandro.ProjectU5w2CorporateDeviceManagement.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,7 +27,7 @@ public class Employee {
     private String email;
     private String imageUrl;
     @OneToMany(mappedBy = "employee")
-    @JsonIgnore
+    @JsonManagedReference
     private List<Device> deviceList;
 
     public Employee(String username, String name, String surname, String email, String imageUrl) {
