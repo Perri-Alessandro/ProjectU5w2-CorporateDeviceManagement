@@ -29,14 +29,14 @@ public class DeviceService {
     }
 
     public Device saveDevice(NewDeviceDTO body) {
-        Employee employee = employeeService.findById(body.getEmployeeId());
-        if (employee == null) {
-            throw new NotFoundException(body.getEmployeeId());
-        }
+//        Employee employee = employeeService.findById(body.getEmployeeId());
+//        if (employee == null) {
+//            throw new NotFoundException(body.getEmployeeId());
+//        }
         Device newDevice = new Device();
         newDevice.setName(body.getName());
         newDevice.setStatus(body.getStatus());
-        newDevice.setEmployee(employee);
+//        newDevice.setEmployee(employee);
         return deviceDAO.save(newDevice);
     }
 
@@ -48,8 +48,8 @@ public class DeviceService {
         Device found = this.findById(id);
         found.setName(updatedDevice.getName());
         found.setStatus(updatedDevice.getStatus());
-        Employee employee = employeeService.findById(updatedDevice.getEmployeeId());
-        found.setEmployee(employee);
+//        Employee employee = employeeService.findById(updatedDevice.getEmployeeId());
+//        found.setEmployee(employee);
         return deviceDAO.save(found);
     }
 
