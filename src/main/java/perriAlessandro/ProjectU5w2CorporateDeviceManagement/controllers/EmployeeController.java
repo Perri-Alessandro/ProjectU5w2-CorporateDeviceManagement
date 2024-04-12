@@ -60,7 +60,7 @@ public class EmployeeController {
         employeeService.findByIdAndDelete(employID);
     }
 
-    @PatchMapping("/{employeeId}/upload")
+    @PatchMapping("/{employeeId}/update")
     public String updateImage(@PathVariable UUID employeeId, @RequestParam("imageUrl") MultipartFile image) throws IOException {
         return this.employeeService.updateImage(employeeId, image);
     }

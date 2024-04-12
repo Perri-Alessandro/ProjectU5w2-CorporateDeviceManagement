@@ -30,6 +30,9 @@ public class DeviceService {
 
     public Device saveDevice(NewDeviceDTO body) {
         Employee employee = employeeService.findById(body.getEmployeeId());
+        if (employee == null) {
+            throw new NotFoundException(body.getEmployeeId());
+        }
         Device newDevice = new Device();
         newDevice.setName(body.getName());
         newDevice.setStatus(body.getStatus());
